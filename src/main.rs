@@ -56,6 +56,15 @@ impl Api {
 		Json(users)
 	}
 
+	/// Get user by id
+	#[oai(path = "/users/:id", method = "get")]
+	async fn get_user(&self, database: Data<&Database>, user_id: Path<String>) -> Json<User> {
+		let collection = database.collection::<User>("users");
+		let object_id = ObjectId::from_str(user_id.as_str()).unwrap();
+		let user  = collection.find_one(doc!{"_id": object_id}, None).await.unwrap().unwrap();
+		Json(user)
+	}
+
 	/// Create a user
 	#[oai(path = "/users", method = "post")]
 	async fn add_user(&self, database: Data<&Database>, user: Json<User>) -> Json<User> {
