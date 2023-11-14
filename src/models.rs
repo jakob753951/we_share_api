@@ -10,7 +10,7 @@ pub struct User {
     #[serde(rename = "_id", skip_serializing_if = "Option::is_none")]
     id: Option<ObjectId>,
     name: String,
-    phone: String,
+    email: String,
 }
 
 #[derive(Serialize, Deserialize)]
